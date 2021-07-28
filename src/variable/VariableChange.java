@@ -15,4 +15,5 @@ public class VariableChange {
         }
         System.out.println(n1+", "+n2); //두 변수의 값 바꾸기
     }
+
 }

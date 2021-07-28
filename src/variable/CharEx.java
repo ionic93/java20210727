@@ -15,7 +15,9 @@ public class CharEx {
         System.out.println("Take on Me");
         System.out.println(new CharEx().c4);
         System.out.println(Integer.parseInt("123"));
-        System.out.println(c1+1); //이항 연산자는 4byte 타입으로 변경함
+        System.out.println(c1+1); //이항 연산자는 4byte 타입(int)으로 변경함
         System.out.println(++c1); //단항 연산자는 타입을 유지
+
+
     }
 }
