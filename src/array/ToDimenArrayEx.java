@@ -5,10 +5,10 @@ public class ToDimenArrayEx {
         //    int[][] score = new int[4][3];
         int[][] score = {{100, 100, 100}, {20, 20, 20}, {30, 30, 30}, {40, 40, 40}};
 
-        for (int i = 0; i < score.length; i++) {
-            for (int j = 0; j < score[i].length; j++) {
+        for (int[] ints : score) {
+            for (int j = 0; j < ints.length; j++) {
                 if (j != 0) System.out.print(",");
-                System.out.printf("%4d", score[i][j]);
+                System.out.printf("%4d", ints[j]);
             }
             System.out.println();
         }
@@ -18,16 +18,17 @@ public class ToDimenArrayEx {
             for (int j = 0; j < score[i].length; j++) {
                 result[i][j] = score[i][j];
                 result[i][score[i].length] += score[i][j];
+                result[score.length][j] += score[i][j];
             }
         }
         printTwo(result);
     }
 
     private static void printTwo(int[][] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
+        for (int[] ints : arr) {
+            for (int j = 0; j < ints.length; j++) {
                 if (j != 0) System.out.print(",");
-                System.out.printf("%4d", arr[i][j]);
+                System.out.printf("%4d", ints[j]);
             }
             System.out.println();
         }
