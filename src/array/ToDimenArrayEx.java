@@ -19,6 +19,7 @@ public class ToDimenArrayEx {
                 result[i][j] = score[i][j];
                 result[i][score[i].length] += score[i][j];
                 result[score.length][j] += score[i][j];
+                result[score.length][score[i].length] += score[i][j];
             }
         }
         printTwo(result);
