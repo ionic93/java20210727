@@ -1,4 +1,4 @@
-package Object1;
+package object1;
 //두 점(x,y)와 (x1,y1)간의 거리를 구한다
 public class Exercise6_4 {
 static double getDistance(int x, int y, int x1, int y1){

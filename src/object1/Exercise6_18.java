@@ -1,4 +1,4 @@
-package Object1;
+package object1;
 
 public class Exercise6_18 {
     public static boolean isNumber(String str){

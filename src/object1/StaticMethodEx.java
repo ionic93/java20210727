@@ -1,4 +1,4 @@
-package Object1;
+package object1;
 
 public class StaticMethodEx {
     public static void main(String[] args) {

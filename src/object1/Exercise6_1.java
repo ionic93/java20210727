@@ -1,4 +1,4 @@
-package Object1;
+package object1;
 
 public class Exercise6_1 {
     public static void main(String[] args) {

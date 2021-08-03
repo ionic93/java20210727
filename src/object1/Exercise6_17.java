@@ -1,4 +1,4 @@
-package Object1;
+package object1;
 
 public class Exercise6_17 {
     static int[] shuffle(int[] original){

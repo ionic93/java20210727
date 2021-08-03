@@ -1,4 +1,4 @@
-package Object1;
+package object1;
 class MyPoint{
     int x;
     int y;

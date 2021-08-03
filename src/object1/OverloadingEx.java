@@ -1,4 +1,4 @@
-package Object1;
+package object1;
 
 public class OverloadingEx {
     public static void main(String[] args) {

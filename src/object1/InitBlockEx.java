@@ -1,10 +1,10 @@
-package Object1;
+package object1;
 
 public class InitBlockEx {
     public static void main(String[] args) {
-        System.out.println(Bicycle.wheel);
+        System.out.println("첫번째"+Bicycle.wheel);
         Bicycle bicycle = new Bicycle();
-        System.out.println(bicycle.gear);
+        System.out.println("두번째"+bicycle.gear);
     }
 }
 class Bicycle{
