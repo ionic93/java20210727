@@ -13,6 +13,7 @@ public class TvEx {
         t.gotoPrevChannel();
         System.out.println(t);
         t.channelUp();
+        t.setChannel(400);
         t.channelUp();
         t.gotoPrevChannel();
         t.volumeUp();
@@ -47,8 +48,8 @@ class MyTv1 {
     public void setChannel(int channel) {
         if(isPowerOn==true) {
             prevChannel = this.channel;
-            if(channel >= MAX_CHANNEL) {
-                this.channel = MIN_CHANNEL;
+            if(channel > MAX_CHANNEL) {
+                this.channel = this.channel;
             } else {
                 this.channel = channel;
             }

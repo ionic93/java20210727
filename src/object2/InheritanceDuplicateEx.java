@@ -6,7 +6,7 @@ public class InheritanceDuplicateEx {
         c.method();
 //        Child c1 = new Parent();  부모에서 자식으로 형변환이 되므로 불가
         Parent p1 = new Child(); //자식에서 부모로 형변환이 되므로 묵시적 형변환 가능
-        System.out.println("자부의 x:"+p1.x); //멤버변수는 부모의 멤버변수를 이용하고(단 자식에 멤버변수가 없으면 부모껄 갖다 쓴다)
+        System.out.println("자부의 x:" + p1.x); //멤버변수는 부모의 멤버변수를 이용하고(단 자식에 멤버변수가 없으면 부모껄 갖다 쓴다)
         p1.method(); //메서드는 자식의 메서드를 이용한다
     }
 }
@@ -18,6 +18,7 @@ class Parent {
     }
     void method(){
         System.out.println("Parent");
+
     }
 }
 
