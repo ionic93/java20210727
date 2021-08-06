@@ -47,7 +47,12 @@ public class TcpIpMultichatClient {
             try {
                 if(out!=null) out.writeUTF(nickName); //입출력 스트림에 무언가 들어오면 일단 닉네임을 출력해줌(본인은 못봄)
                 while (out != null) {
-                    out.writeUTF("["+nickName+"]"+JOptionPane.showInputDialog("내용을 입력하세요")); //입출력 스트림이 null이 아닐때까지 무한 반복
+                    String tmp = JOptionPane.showInputDialog("메세지를 입력하세요!");
+                    if(tmp.equals("Q")){
+                        System.out.println("채팅이 종료됩니다");
+                        System.exit(-1);
+                    }
+                    if(tmp!=null &&!tmp.equals("")) out.writeUTF("["+nickName+"]"+tmp);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
