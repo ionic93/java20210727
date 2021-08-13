@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class LoginFrm {
     public static void main(String[] args) {
-        new LoginComponent(300,200,"Login");
+        new LoginComponent(300,150,"Login");
     }
 }
 
