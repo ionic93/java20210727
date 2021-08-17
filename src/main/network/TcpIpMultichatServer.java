@@ -1,4 +1,4 @@
-package main.network;
+package network;
 
 import java.net.*;
 import java.io.*;
