@@ -1,89 +1,75 @@
 package network;
 
-import Io.swing.BasicFrm;
+import swing.BasicFrm;
 
-import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
+import javax.swing.*;
 
 public class TcpIpMultichatClientForm extends BasicFrm {
-    JTextArea ta;
-    JScrollPane scp;
-    JTextField tf;
+    private JTextArea ta; //채팅 입력부분
+    private JScrollPane scp; //채팅 스크롤부분
+    private JTextField tf; //채팅이 올라오는 부분
+    private String nickName, ip;
+    private DataOutputStream out; //출력 스트림
 
     public TcpIpMultichatClientForm() {
-        super(300, 600, "채팅창");
+        super(500, 600, "Chatting Room");
+        tf.requestFocus(); //채팅창 입력부분 커서 표시
     }
 
     @Override
     public void init() {
-        ta = new JTextArea();
-        scp = new JScrollPane(ta);
-        tf = new JTextField();
+        nickName = JOptionPane.showInputDialog("채팅할 대화명을 입력하세요!");
+        ip = JOptionPane.showInputDialog("서버 IP를 입력하세요!");
+
+        ta = new JTextArea(); //채팅창 부분 초기화
+        ta.setEditable(false); //채팅창 부분 수정 불가
+        scp = new JScrollPane(ta); //채팅창 스크롤 초기화
+        tf = new JTextField(); //채팅창 입력 부분 초기화
+        ta.setFont(new Font("맑은 고딕",Font.PLAIN,20));
+        tf.setFont(new Font("맑은 고딕",Font.PLAIN,20));
+        try {
+            Socket socket = new Socket(ip, 7777); //소켓에 ip와 포트번호 입력
+            out = new DataOutputStream(socket.getOutputStream()); // 출력스트림 초기화(이때 출력스트림을 위에서 만든 소켓의 출력스트림과 동기화)
+            out.writeUTF(nickName);// 출력스트림에 닉네임 표시
+
+            Receiver receiver = new Receiver(socket); //받는 쓰레드 생성
+            receiver.start(); //받는 쓰레드 실행
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        tf.addActionListener(new ActionListener() {//Sender Thread의 역할을 대체 -> 이벤트
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String msg = tf.getText(); //채팅창 입력한 글자들 변수로 설정
+                if (msg==null||msg.equals("")) return;
+                try {
+                    out.writeUTF("["+nickName+"] "+msg); //출력스트림에 [닉네임]+입력한 글자 표시
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                tf.setText(""); //출력한후 채팅창 입력부분 초기화
+            }
+        });
     }
 
     @Override
     public void arrange() {
-        add(scp, "Center");
-        add(tf, "South");
+        add(scp, "Center"); //swing 위치 설정
+        add(tf, "South"); //swing 위치 설정
     }
-
 
     public static void main(String[] args) {
-        String nickName = JOptionPane.showInputDialog("채팅할 대화명을 입력하세요!"); //대화명 입력
-        String ip = JOptionPane.showInputDialog("서버 IP를 입력하세요!"); //서버 IP 입력
-        try {
-            Socket socket = new Socket(ip, 7777); //네트워크 문을 열기위한 Socket 생성(Try Catch로 예외 잡아줌)
-            System.out.println("서버에 접속되었습니다.");
-           TcpIpMultichatClientForm tcp = new TcpIpMultichatClientForm();
-//            Sender sender = new Sender(socket, nickName);// 소켓과 닉네임을 Sender Thread로 보내줌
-//            sender.start(); //Sender Thread를 실행
-            Receiver receiver = tcp.new Receiver(socket);
-            receiver.start(); //Receiver Thread 실행
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new TcpIpMultichatClientForm();
     }
 
-//    static class Sender extends Thread { //내가 쓴 데이터를 보내기 위한 Sender Thread 생성(Thread를 상속) 이 쓰레드는 계속 돌아가야함
-//        Scanner scan = new Scanner(System.in); //키보드 입력받기 위한 인스턴스
-//        Socket socket; //네트워크를 사용하기 위한 통로
-//        DataOutputStream out; // I/O stream(socket에서 획득, 그래야 그 네트워크로 보낼수 있음)
-//        String nickName; //통신할 때 구분되는 ID같은 개념
-
-//        //위의 변수들을 생성자를 통해서 초기화!
-//        public Sender(Socket socket, String nickName){ //서버와 연결한 socket와 동일한 socket으로 초기화
-//            this.socket = socket;
-//            this.nickName = nickName;
-//            try {
-//                //소켓으로 부터 출력스트림을 획득
-//                out = new DataOutputStream(socket.getOutputStream());//예외가 항상 발생할수 있어서 Try Catch문 사용
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        @Override
-//        public void run() {//Thread는 항상 실행해야 하기 때문에 run()메서드 있어야함(재정의)
-//            try {
-//                if(out!=null) out.writeUTF(nickName); //입출력 스트림에 무언가 들어오면 일단 닉네임을 출력해줌(본인은 못봄)
-//                while (out != null) {
-//                    String tmp = JOptionPane.showInputDialog("메세지를 입력하세요!");
-//                    if(tmp.equals("Q")){
-//                        System.out.println("채팅이 종료됩니다");
-//                        System.exit(-1);
-//                    }
-//                    if(tmp!=null &&!tmp.equals("")) out.writeUTF("["+nickName+"]"+tmp);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-   class Receiver extends Thread { //내가 받을 데이터를 받기 위한 Receiver Thread 생성 이 쓰레드는 프로그램 종료전까지 돌아가야함
+    class Receiver extends Thread { //내가 받을 데이터를 받기 위한 Receiver Thread 생성 이 쓰레드는 프로그램 종료전까지 돌아가야함
         Socket socket; //네트워크를 사용하기 위한 통로
         DataInputStream in; // I/O stream(socket에서 획득, 그래야 똑같은 네트워크에서 받을수 있음)
 
@@ -102,7 +88,9 @@ public class TcpIpMultichatClientForm extends BasicFrm {
         public void run() {
             while (in != null) {
                 try {
-                    ta.append(in.readUTF()+"\n");
+                    ta.append(in.readUTF()+"\n"); //채팅창에 받아온 글씨 추가
+                    ta.setCaretPosition(ta.getDocument().getLength());
+
                 } catch (IOException e) { }
             }
         }
