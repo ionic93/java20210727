@@ -11,7 +11,7 @@ public class DBConnection {
 
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            String Driver = "jdbc:oracle:thin:@119.198.34.154:1521:xe";
+            String Driver = "jdbc:oracle:thin:@localhost:1521:xe";
             String User = "db7";
             String Pass = "1234";
             conn = DriverManager.getConnection(Driver, User, Pass);

@@ -18,11 +18,11 @@ public class TcpIpMultichatServer {
 
 		try {
 			serverSocket = new ServerSocket(7777);
-			System.out.println("서버가 시작되었습니다.");
+			System.out.println("Server started...");
 
 			while(true) {
 				socket = serverSocket.accept();
-				System.out.println("["+socket.getInetAddress() + ":"+socket.getPort()+"]"+"에서 접속하였습니다.");
+				System.out.println("Connected from ["+socket.getInetAddress() + ":"+socket.getPort()+"]");
 				ServerReceiver thread = new ServerReceiver(socket);
 				thread.start();
 			}
@@ -63,20 +63,20 @@ public class TcpIpMultichatServer {
 			String name = "";
 			try {
 				name = in.readUTF();
-				sendToAll("#"+name+"님이 들어오셨습니다.");
+				sendToAll("#"+name+" Entered");
 
 				clients.put(name, out);
-				System.out.println("현재 서버접속자 수는 " + clients.size() + "입니다.");
+				System.out.println("Now Number of Connector is " + clients.size());
 				while(in!=null) {
 					sendToAll(in.readUTF());
 				}
 			} catch(IOException e) {
 				// ignore
 			} finally {
-				sendToAll("#"+name+"님이 나가셨습니다.");
+				sendToAll("#"+name+"is disconnected");
 				clients.remove(name);
-				System.out.println("["+socket.getInetAddress()+":"+socket.getPort()+"]"+"에서 접속을 종료하였습니다.");
-				System.out.println("현재 서버접속자 수는 "+ clients.size()+"입니다.");
+				System.out.println("["+socket.getInetAddress()+":"+socket.getPort()+"]"+"is terminated");
+				System.out.println("Now Number of Connector is " + clients.size());
 			} // try
 		} // run
 	} // ReceiverThread
